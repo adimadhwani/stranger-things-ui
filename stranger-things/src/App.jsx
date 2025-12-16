@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Terminal, Copy, Database, Check, Activity, Lock, AlertTriangle } from 'lucide-react';
 import './App.css';
 
-// CONSTANTS
+// CONSTANTS - UPDATED TO YOUR LIVE URL
 const API_BASE_URL = "https://api-quiz-161c.onrender.com";
 
 // --- LOGIN SCREEN COMPONENT ---
@@ -45,7 +45,6 @@ const LoginScreen = ({ onLogin }) => {
       const data = await response.json();
       
       // 3. Pass the real ID back to parent
-      // The backend returns: { "team_id": "...", "team_name": "...", ... }
       await onLogin(data.team_id, data.team_name);
 
     } catch (err) {
@@ -136,8 +135,7 @@ const StrangerThingsDashboard = () => {
     setTimeout(() => setCopied(''), 2000);
   };
 
-  // DYNAMIC API LIST based on Real Backend Routes
-  // Your python code uses paths like: /{team_id}/eleven (Not /api/...)
+  // DYNAMIC API LIST
   const teamIdDisplay = teamData.id || '{team_id}';
   
   const apiEndpoints = [
@@ -226,7 +224,7 @@ const StrangerThingsDashboard = () => {
                 <div className="crt-screen-container">
                   <div className="crt-screen-content">
                     {/* Display the Real API URL */}
-                    <code style={{fontSize: '1.5rem'}}>{API_BASE_URL}</code>
+                    <code style={{fontSize: '1.2rem'}}>{API_BASE_URL}</code>
                   </div>
                 </div>
                 <div className="hardware-button-container">
