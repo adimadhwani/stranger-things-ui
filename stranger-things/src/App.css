@@ -1,0 +1,447 @@
+/* -----------------------------------------------------------
+   1. FONTS & GLOBAL RESET
+----------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Mono:wght@400;700&family=VT323&display=swap');
+
+:root {
+  /* Default Theme (Normal World - Blue/Tech) */
+  --bg-color: #111827;
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --accent-primary: #0F4C75;
+  --accent-glow: rgba(15, 76, 117, 0.5);
+  --border-color: #1e3a8a;
+
+  /* Status Colors */
+  --success: #22c55e;
+  --warning: #eab308;
+  --danger: #ef4444;
+  --neon-blue: #00f7ff;
+
+  /* Fonts */
+  --font-heading: 'Bebas Neue', cursive;
+  --font-mono: 'Roboto Mono', monospace;
+  --font-led: 'VT323', monospace;
+}
+
+/* Upside Down Theme */
+.upside-down {
+  --bg-color: #000000;
+  --text-primary: #ef4444;
+  --text-secondary: #a8a29e;
+  --accent-primary: #8A2BE2;
+  --accent-glow: rgba(138, 43, 226, 0.6);
+  --border-color: #7f1d1d;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-mono); transition: background-color 0.8s ease, color 0.5s ease; overflow-x: hidden; }
+
+/* -----------------------------------------------------------
+   2. RETRO OVERLAYS
+----------------------------------------------------------- */
+.scanlines { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 2px, 3px 100%; pointer-events: none; z-index: 99; mix-blend-mode: overlay; }
+.vignette { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle, transparent 50%, black 100%); opacity: 0.6; pointer-events: none; z-index: 98; }
+
+/* -----------------------------------------------------------
+   3. LAYOUT & CONTAINER
+----------------------------------------------------------- */
+.dashboard-wrapper { min-height: 100vh; width: 100vw; position: relative; z-index: 10; display: flex; flex-direction: column; }
+.container { width: 100%; max-width: 100%; margin: 0; padding: 0 2rem; }
+header { width: 100%; border-bottom: 4px solid var(--border-color); background: rgba(0, 0, 0, 0.9); position: sticky; top: 0; z-index: 50; backdrop-filter: blur(5px); }
+.header-inner { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; }
+.logo h1 { font-family: var(--font-heading); font-size: 3rem; margin: 0; letter-spacing: 2px; background: linear-gradient(to right, #dc2626, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 10px rgba(220, 38, 38, 0.5); }
+.dimension-toggle { background: transparent; border: 2px solid var(--accent-primary); color: var(--accent-primary); padding: 0.5rem 1.5rem; font-family: var(--font-mono); font-weight: bold; cursor: pointer; box-shadow: 0 0 10px var(--accent-glow); transition: all 0.3s ease; }
+.dimension-toggle:hover { background: var(--accent-primary); color: #fff; }
+
+/* Hero Section */
+.hero { text-align: center; padding: 4rem 0; }
+.hero h2 { font-family: var(--font-heading); font-size: 4rem; margin-bottom: 1rem; line-height: 1.1; }
+.cards-container { display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; }
+.char-card { width: 200px; background: #111; border: 2px solid; padding: 1rem; transform: rotate(-1deg); transition: transform 0.3s; }
+.char-card:hover { transform: rotate(0deg) scale(1.05); }
+.cta-button { display: inline-block; margin-top: 4rem; padding: 1rem 3rem; background: #b91c1c; color: white; font-family: var(--font-heading); font-size: 1.5rem; text-decoration: none; border-radius: 4px; box-shadow: 0 0 15px rgba(185, 28, 28, 0.5); transition: transform 0.2s; cursor: pointer; border: none; }
+.cta-button:hover { transform: scale(1.05); }
+
+/* -----------------------------------------------------------
+   4. HARDWARE REVEAL UI
+----------------------------------------------------------- */
+.hardware-container { margin-top: 3rem; display: inline-flex; flex-direction: column; background: linear-gradient(145deg, #1a1a24, #0a0a0f); border: 4px solid #0f0f13; box-shadow: inset 2px 2px 5px rgba(255,255,255,0.1), inset -2px -2px 5px rgba(0,0,0,0.5), 0 0 30px rgba(0,0,0,0.8); padding: 20px; border-radius: 12px; position: relative; animation: slideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+.hardware-container::before, .hardware-container::after { content: ''; position: absolute; top: 50%; width: 10px; height: 60%; background: repeating-linear-gradient(transparent, transparent 5px, #000 5px, #000 10px); border: 1px solid #333; box-shadow: inset 0 0 5px #000; }
+.hardware-container::before { left: 8px; transform: translateY(-50%); }
+.hardware-container::after { right: 8px; transform: translateY(-50%); }
+.hardware-top-bezel { background: #0c0c0c; border: 3px solid #2a0a0a; box-shadow: inset 0 0 20px #500000; padding: 10px 20px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
+.neon-red-text { font-family: var(--font-heading); font-size: 3rem; color: #ff3333; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0000, 0 0 30px #ff0000; animation: flicker 2s infinite alternate; }
+.hardware-mid-section { display: flex; gap: 20px; align-items: stretch; margin-bottom: 20px; }
+.crt-screen-container { flex-grow: 1; background: #001100; border: 3px solid #0f3d0f; box-shadow: inset 0 0 30px #00ff0040; border-radius: 6px; padding: 5px; position: relative; overflow: hidden; }
+.crt-screen-content { border: 2px dashed #005500; padding: 15px 30px; display: flex; align-items: center; justify-content: center; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), radial-gradient(circle at center, #003300 0%, #001100 100%); background-size: 100% 4px, 100% 100%; }
+.crt-screen-content code { font-family: var(--font-mono); font-size: 2.5rem; color: #33ff33; text-shadow: 0 0 10px #33ff33; font-weight: bold; }
+.hardware-button-container { background: #0c0c0c; border: 3px solid #0a1a2a; padding: 5px; border-radius: 6px; display: flex; }
+.blue-physical-btn { background: linear-gradient(145deg, #00f7ff, #0077ff); border: none; box-shadow: inset 2px 2px 2px rgba(255,255,255,0.4), inset -3px -3px 5px rgba(0,0,0,0.4), 0 0 15px #00f7ff80; border-radius: 4px; width: 80px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+.blue-physical-btn:hover { transform: scale(1.02); box-shadow: 0 0 30px #00f7ff; }
+.hardware-bottom-bezel { background: #1a1a1a; border: 3px solid #333; box-shadow: inset 0 0 10px #000; padding: 8px; border-radius: 4px; }
+.led-matrix-display { background: #2a1a00; background-image: radial-gradient(rgba(255, 166, 0, 0.3) 15%, transparent 16%); background-size: 4px 4px; padding: 5px 10px; text-align: center; border: 1px solid #553300; }
+.led-text { font-family: var(--font-led); color: #ffaa00; font-size: 1.8rem; text-transform: uppercase; text-shadow: 0 0 4px #ffaa00; }
+
+@keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 24%, 55% { opacity: 0.5; } }
+
+/* -----------------------------------------------------------
+   5. REST OF LAYOUT
+----------------------------------------------------------- */
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; width: 100%; margin-bottom: 4rem; }
+.glass-panel { background: rgba(0,0,0,0.5); border: 1px solid #374151; padding: 2rem; border-radius: 8px; }
+.method-matrix { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+.matrix-cell { background: rgba(17, 24, 39, 0.8); border: 1px solid; padding: 0.8rem; text-align: center; cursor: default; transition: background 0.2s; }
+.matrix-cell:hover { background: #1f2937; }
+.matrix-cell strong { font-size: 1.2rem; display: block; }
+.matrix-cell span { font-size: 0.7rem; text-transform: uppercase; display: block; margin-bottom: 0.25rem; opacity: 0.8;}
+.m-get { color: #4ade80; border-color: #14532d; }
+.m-post { color: #facc15; border-color: #713f12; }
+.m-put { color: #fb923c; border-color: #7c2d12; }
+.m-patch { color: #c084fc; border-color: #581c87; }
+.m-delete { color: #f87171; border-color: #7f1d1d; }
+.m-head { color: #9ca3af; border-color: #374151; }
+.monitor-section { padding-bottom: 4rem; width: 100%; }
+.terminal-window { background: #111827; border: 1px solid #374151; border-radius: 6px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); overflow: hidden; }
+.terminal-header { background: #1f2937; padding: 0.5rem 1rem; display: flex; justify-content: space-between; border-bottom: 1px solid #374151; color: #9ca3af; font-size: 0.8rem; }
+.terminal-dots { display: flex; gap: 6px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.endpoint-row { display: flex; justify-content: space-between; padding: 0.8rem 1rem; border-bottom: 1px solid rgba(55, 65, 81, 0.3); }
+.endpoint-row:hover { background: rgba(55, 65, 81, 0.2); }
+.badge { padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-right: 1rem; min-width: 60px; text-align: center; display: inline-block; }
+.badge.POST { background: #422006; color: #fde047; }
+.badge.GET { background: #052e16; color: #86efac; }
+.badge.PUT { background: #431407; color: #fdba74; }
+.badge.DELETE { background: #450a0a; color: #fca5a5; }
+.badge.PATCH { background: #581c87; color: #e9d5ff; }
+.badge.HEAD { background: #374151; color: #d1d5db; }
+.badge.OPTIONS { background: #172554; color: #93c5fd; }
+
+/* -----------------------------------------------------------
+   6. LOGIN SCREEN STYLES (NEW)
+----------------------------------------------------------- */
+.login-wrapper {
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 100;
+  /* Scary subtle red pulse background */
+  background-image: radial-gradient(circle at center, #1a0505 0%, #000 70%);
+}
+
+.login-container {
+  width: 100%;
+  max-width: 450px;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 101;
+}
+
+.login-header {
+  margin-bottom: 2rem;
+}
+
+.warning-icon {
+  color: #ffaa00;
+  margin-bottom: 1rem;
+  animation: pulse 2s infinite;
+}
+
+.login-header h1 {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  color: #ef4444;
+  margin: 0;
+  letter-spacing: 2px;
+  text-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+}
+
+.login-header p {
+  font-family: var(--font-mono);
+  color: #9ca3af;
+  letter-spacing: 4px;
+  font-size: 0.8rem;
+}
+
+.login-box {
+  background: rgba(10, 10, 10, 0.8);
+  border: 1px solid #333;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.8);
+  border-top: 4px solid #ef4444;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.input-group input {
+  width: 100%;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid #333;
+  border-bottom: 2px solid #555;
+  color: #fff;
+  padding: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.input-group input:focus {
+  border-bottom-color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.login-btn {
+  width: 100%;
+  background: #b91c1c;
+  color: white;
+  border: none;
+  padding: 1rem;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 1rem;
+}
+
+.login-btn:hover:not(:disabled) {
+  background: #ef4444;
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+}
+
+.login-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #ef4444;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.login-footer {
+  margin-top: 3rem;
+  color: #4b5563;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+}
+
+@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+@keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .info-grid { grid-template-columns: 1fr; }
+  .logo h1 { font-size: 2rem; }
+  .hero h2 { font-size: 2.5rem; }
+  .container { padding: 0 1rem; }
+  .hardware-mid-section { flex-direction: column; }
+  .blue-physical-btn { width: 100%; padding: 15px; }
+  .login-header h1 { font-size: 2.5rem; }
+}
+
+/* -----------------------------------------------------------
+   6. LOGIN SCREEN STYLES (POSTER VIBE UPDATE)
+----------------------------------------------------------- */
+.login-wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 100;
+  background-color: #000;
+  overflow: hidden;
+
+  /* --- THE POSTER LOOK --- */
+  /* We layer a dark gradient over an atmospheric image using blend modes */
+  background-image: 
+    /* Layer 1: Darkening gradient edges */
+    radial-gradient(circle at center, transparent 0%, #000 90%),
+    /* Layer 2: The signature Red/Blue glow from the bottom center */
+    linear-gradient(to top, rgba(220, 38, 38, 0.6) 0%, rgba(30, 58, 138, 0.4) 40%, rgba(0, 0, 0, 0.8) 100%),
+    /* Layer 3: Atmospheric background image (credit: Unsplash) */
+    url('https://images.unsplash.com/photo-1518066000714-58c45f1a2c0a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3');
+  
+  background-size: cover;
+  background-position: center bottom;
+  background-blend-mode: multiply, overlay, normal; /* Blends the layers together */
+  /* ----------------------- */
+}
+
+/* Ensure scanlines and vignette stay on top of the poster bg */
+.login-wrapper .scanlines, 
+.login-wrapper .vignette {
+    z-index: 101;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 450px;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 102; /* sits above scanlines */
+}
+
+.login-header {
+  margin-bottom: 2rem;
+  /* Add a dark backing to header text to ensure readability over busy background */
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+
+.warning-icon {
+  color: #ffaa00;
+  margin-bottom: 1rem;
+  animation: pulse 2s infinite;
+  filter: drop-shadow(0 0 10px #ffaa00);
+}
+
+.login-header h1 {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  color: #ef4444;
+  margin: 0;
+  letter-spacing: 2px;
+  /* Stronger neon glow for poster look */
+  text-shadow: 
+    0 0 5px #000,
+    0 0 10px #ef4444,
+    0 0 20px #ef4444,
+    0 0 40px #ef4444;
+}
+
+.login-header p {
+  font-family: var(--font-mono);
+  color: #d1d5db; /* Lighter text for contrast */
+  letter-spacing: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.login-box {
+  /* Make the box semi-transparent "glass" */
+  background: rgba(20, 20, 30, 0.65);
+  backdrop-filter: blur(10px); /* Blurs the poster background behind the box */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.8);
+  border-top: 4px solid #ef4444;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: #9ca3af;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.input-group input {
+  width: 100%;
+  background: rgba(0,0,0,0.4); /* More transparent input background */
+  border: 1px solid #333;
+  border-bottom: 2px solid #555;
+  color: #fff;
+  padding: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.input-group input:focus {
+  border-bottom-color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+}
+
+.login-btn {
+  width: 100%;
+  background: linear-gradient(to bottom, #b91c1c, #991b1b);
+  color: white;
+  border: none;
+  padding: 1rem;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 1rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  border-radius: 4px;
+}
+
+.login-btn:hover:not(:disabled) {
+  background: linear-gradient(to bottom, #ef4444, #dc2626);
+  transform: scale(1.02) translateY(-2px);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+}
+
+.login-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #ef4444;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 0.5rem;
+  border-radius: 4px;
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.login-footer {
+  margin-top: 3rem;
+  color: #9ca3af;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+}
+
+@keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
