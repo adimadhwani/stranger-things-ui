@@ -72,7 +72,7 @@ const LoginScreen = ({ onLogin }) => {
   );
 };
 
-// --- HANDBOOK MODAL COMPONENT (UPDATED: HINT MODE) ---
+// --- HANDBOOK MODAL COMPONENT (HINT MODE) ---
 const HandbookModal = ({ isOpen, onClose, teamId }) => {
   if (!isOpen) return null;
   const idDisplay = teamId || "{TEAM_ID}";
@@ -225,7 +225,8 @@ const StrangerThingsDashboard = () => {
       }
     };
 
-    const interval = setInterval(3000, checkStatus); // Check every 3 seconds
+    // --- FIX: Corrected setInterval syntax ---
+    const interval = setInterval(checkStatus, 3000); // Correct way: (function, delay)
     return () => clearInterval(interval);
   }, [isAuthenticated, teamData.id, victoryData.won]);
 
